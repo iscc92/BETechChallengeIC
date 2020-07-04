@@ -1,0 +1,27 @@
+version: '2'
+services:
+  postgres-compose:
+    image: postgres
+    environment: 
+        POSTGRES_PASSWORD: mysecretpassword
+        POSTGRES_USER: postgres
+    ports:
+      - "32769:5432"
+    networks:
+      - postgres-compose-network
+        
+  pgadmin-compose:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "user@domain.com"
+      PGADMIN_DEFAULT_PASSWORD: "SuperSecret"
+    ports:
+      - "32771:80"
+    depends_on:
+      - postgres-compose
+    networks:
+      - postgres-compose-network
+
+networks: 
+  postgres-compose-network:
+    driver: bridge
